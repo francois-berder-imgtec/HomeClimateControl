@@ -7,4 +7,4 @@ file(GLOB hdrs src/*.h)
 
 add_executable(homeclimatecontrol ${srcs} ${hdrs})
 target_link_libraries(homeclimatecontrol letmecreate_click letmecreate_core)
-install(TARGETS homeclimatecontrol RUNTIME DESTINATION bin)
+install(TARGETS homeclimatecontrol RUNTIME DESTINATION bin/HomeClimateControl)
