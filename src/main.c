@@ -11,7 +11,7 @@ static volatile bool demo_running = true;
 /* Initialise SPI and I2C.
  * Initialise EVE click and thermo3 click.
  */
-static int init_demo()
+static int init_peripherals(void)
 {
     if (spi_init() < 0
     ||  spi_set_mode(MIKROBUS_1, SPI_MODE_0) < 0
@@ -25,7 +25,7 @@ static int init_demo()
     return thermo3_click_enable(0);
 }
 
-static void release_demo()
+static void release_peripherals(void)
 {
     thermo3_click_disable();
     i2c_release();
@@ -48,9 +48,9 @@ int main(void)
     sigemptyset(&action.sa_mask);
     sigaction (SIGINT, &action, NULL);
 
-    if (init_demo() < 0) {
+    if (init_peripherals() < 0) {
         fprintf(stderr, "Error during initialisation.\nExiting.\n");
-        release_demo();
+        release_peripherals();
         return -1;
     }
 
@@ -65,7 +65,7 @@ int main(void)
 
     state_machine_release();
 
-    release_demo();
+    release_peripherals();
 
     return 0;
 }
