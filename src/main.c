@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <letmecreate/letmecreate.h>
+#include "state.h"
 
 static volatile bool demo_running = true;
 
@@ -37,27 +38,6 @@ static void exit_demo(int __attribute__ ((unused))signo)
     demo_running = false;
 }
 
-static void refresh_screen(float temperature)
-{
-    char str[256];
-    snprintf(str, sizeof(str), "%4.1f degrees celsius", temperature);
-
-    eve_click_clear(0, 0, 0);
-    eve_click_draw(FT800_TEXT,
-                   240,                 /* x */
-                   100,                 /* y */
-                   28,                  /* font */
-                   FT800_OPT_CENTER,    /* options */
-                   "Current room temperature:");
-    eve_click_draw(FT800_TEXT,
-                   240,                 /* x */
-                   136,                 /* y */
-                   28,                  /* font */
-                   FT800_OPT_CENTER,    /* options */
-                   str);
-    eve_click_display();
-}
-
 int main(void)
 {
     /* Set signal handler to exit program when Ctrl+c is pressed */
@@ -68,24 +48,22 @@ int main(void)
     sigemptyset(&action.sa_mask);
     sigaction (SIGINT, &action, NULL);
 
-
     if (init_demo() < 0) {
         fprintf(stderr, "Error during initialisation.\nExiting.\n");
         release_demo();
         return -1;
     }
 
+    state_machine_init(MAIN_MENU);
+
     printf("Home Climate Control demo started");
 
     while (demo_running) {
-        float temperature = 0.f;
-        if (thermo3_click_get_temperature(&temperature) < 0) {
-            fprintf(stderr, "Failed to get temperature from thermo3.\n");
-            continue;
-        }
-        refresh_screen(temperature);
+        state_machine_update();
         sleep(1);
     }
+
+    state_machine_release();
 
     release_demo();
 
