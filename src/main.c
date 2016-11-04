@@ -5,6 +5,7 @@
 #include <time.h>
 #include <unistd.h>
 #include <letmecreate/letmecreate.h>
+#include "gui.h"
 #include "state.h"
 
 static volatile bool demo_running = true;
@@ -67,6 +68,10 @@ int main(void)
         return -1;
     }
 
+    eve_click_calibrate();
+
+    gui_init();
+
     state_machine_init(MAIN_MENU);
 
     printf("Home Climate Control demo started");
@@ -77,7 +82,7 @@ int main(void)
     }
 
     state_machine_release();
-
+    gui_release();
     release_peripherals();
 
     return 0;
