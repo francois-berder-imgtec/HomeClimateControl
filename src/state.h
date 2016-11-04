@@ -5,7 +5,7 @@
 
 struct state {
     void (*init)(void);
-    void (*refresh_screen)(void);   /* Function called every second */
+    void (*refresh_screen)(void);   /* Function called every 1/60th second */
     void (*event_handler)(uint16_t, uint16_t);
     void (*release)(void);
 };

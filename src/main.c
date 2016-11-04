@@ -2,11 +2,24 @@
 #include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <time.h>
 #include <unistd.h>
 #include <letmecreate/letmecreate.h>
 #include "state.h"
 
 static volatile bool demo_running = true;
+
+static void sleep_ms(unsigned int ms)
+{
+    struct timespec req, rem;
+
+    req.tv_sec = ms / 1000;
+    ms -= req.tv_sec * 1000;
+    req.tv_nsec = ms * 1000000;
+
+    while (nanosleep(&req, &rem))
+        req = rem;
+}
 
 /* Initialise SPI and I2C.
  * Initialise EVE click and thermo3 click.
@@ -60,7 +73,7 @@ int main(void)
 
     while (demo_running) {
         state_machine_update();
-        sleep(1);
+        sleep_ms(16);
     }
 
     state_machine_release();
