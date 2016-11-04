@@ -89,3 +89,8 @@ void state_machine_release(void)
     sigemptyset(&action.sa_mask);
     sigaction(SIGINT, NULL, NULL);
 }
+
+void state_machine_exit(void)
+{
+    running = false;
+}

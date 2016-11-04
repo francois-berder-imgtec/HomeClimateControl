@@ -20,5 +20,6 @@ void state_machine_init(unsigned int state);
 void change_state(unsigned int new_state);
 void state_machine_run(void);
 void state_machine_release(void);
+void state_machine_exit(void);
 
 #endif
