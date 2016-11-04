@@ -8,7 +8,6 @@ static struct state states[STATE_CNT] = {
     [MAIN_MENU] = {
         .init = main_menu_init,
         .refresh_screen = main_menu_refresh_screen,
-        .event_handler = main_menu_event_handler,
         .release = main_menu_release,
     }
 };
