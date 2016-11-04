@@ -1,9 +1,15 @@
+#include <stdbool.h>
+#include <signal.h>
 #include <stdio.h>
+#include <time.h>
 #include "state.h"
 #include "main_menu.h"
 
-static unsigned int current_state;
 
+static bool running = true;
+static struct sigaction action;
+
+static unsigned int current_state;
 static struct state states[STATE_CNT] = {
     [MAIN_MENU] = {
         .init = main_menu_init,
@@ -12,9 +18,35 @@ static struct state states[STATE_CNT] = {
     }
 };
 
+
+static void sleep_ms(unsigned int ms)
+{
+    struct timespec req, rem;
+
+    req.tv_sec = ms / 1000;
+    ms -= req.tv_sec * 1000;
+    req.tv_nsec = ms * 1000000;
+
+    while (nanosleep(&req, &rem))
+        req = rem;
+}
+
+static void exit_state_machine(int __attribute__ ((unused))signo)
+{
+    running = false;
+}
+
 void state_machine_init(unsigned int state)
 {
+    /* Set signal handler to stop state machine when Ctrl+c is pressed */
+    action.sa_handler = exit_state_machine;
+    action.sa_flags = 0;
+
+    sigemptyset(&action.sa_mask);
+    sigaction(SIGINT, &action, NULL);
+
     current_state = state;
+    running = true;
 
     if (states[current_state].init)
         states[current_state].init();
@@ -37,18 +69,23 @@ void change_state(unsigned int new_state)
 
     if (states[current_state].init)
         states[current_state].init();
-
-    state_machine_update();
 }
 
-void state_machine_update(void)
+void state_machine_run(void)
 {
-    if (states[current_state].refresh_screen != NULL)
-        states[current_state].refresh_screen();
+    while (running) {
+        if (states[current_state].refresh_screen != NULL)
+            states[current_state].refresh_screen();
+        sleep_ms(16);
+    }
 }
 
 void state_machine_release(void)
 {
     if (states[current_state].release)
         states[current_state].release();
+
+    /* Remove signal handler */
+    sigemptyset(&action.sa_mask);
+    sigaction(SIGINT, NULL, NULL);
 }
