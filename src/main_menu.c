@@ -1,10 +1,12 @@
 #include <letmecreate/letmecreate.h>
+#include "gui.h"
 #include "main_menu.h"
 
+static int bid = -1;
 
 void main_menu_init(void)
 {
-
+    bid = gui_add_button(100,100,50,30,"Exit");
 }
 
 void main_menu_refresh_screen(void)
@@ -16,15 +18,13 @@ void main_menu_refresh_screen(void)
                    28,                  /* font */
                    FT800_OPT_CENTER,    /* options */
                    "Current room temperature:");
+
+    gui_draw();
     eve_click_display();
-}
-
-void main_menu_event_handler(uint16_t x, uint16_t y)
-{
-
 }
 
 void main_menu_release(void)
 {
-
+    if (bid >= 0)
+        gui_remove_button(bid);
 }
