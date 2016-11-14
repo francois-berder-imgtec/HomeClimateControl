@@ -24,8 +24,6 @@ static void gui_callback(uint16_t x, uint16_t y)
 {
     struct button *cur = NULL;
 
-    printf("%u %u\n", x, y);
-
     pthread_mutex_lock(&mutex);
     cur = buttons;
     while (cur) {
