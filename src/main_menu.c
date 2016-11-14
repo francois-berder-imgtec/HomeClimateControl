@@ -15,7 +15,7 @@ static void main_menu_gui_handler(int id)
 
 void main_menu_init(void)
 {
-    bid = gui_add_button(100,100,50,30,"Exit");
+    bid = gui_add_button(220,235,50,30,"Exit");
     gui_set_user_callback(main_menu_gui_handler);
 }
 
