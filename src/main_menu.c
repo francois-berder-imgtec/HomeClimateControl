@@ -1,4 +1,5 @@
 #include <stddef.h>
+#include <stdio.h>
 #include <letmecreate/letmecreate.h>
 #include "gui.h"
 #include "main_menu.h"
@@ -21,13 +22,21 @@ void main_menu_init(void)
 
 void main_menu_refresh_screen(void)
 {
+    float temperature = 0.f;
+    char str[255];
+
+    if (thermo3_click_get_temperature(&temperature) < 0)
+        snprintf(str, sizeof(str)-1, "Could not get temperature from sensor");
+    else
+        snprintf(str, sizeof(str)-1, "Current temperature: %5.2f degrees celsius", temperature);
+
     eve_click_clear(0, 0, 0);
     eve_click_draw(FT800_TEXT,
                    240,                 /* x */
                    100,                 /* y */
                    28,                  /* font */
                    FT800_OPT_CENTER,    /* options */
-                   "Current room temperature:");
+                   str);
 
     gui_draw();
     eve_click_display();
