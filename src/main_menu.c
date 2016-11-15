@@ -131,15 +131,18 @@ void main_menu_refresh_screen(void)
     else
         snprintf(str, sizeof(str)-1, "Current temperature: %5.2f degrees celsius", temperature);
 
-    eve_click_clear(0, 0, 0);
+    eve_click_clear(255, 255, 255);
+    eve_click_draw(FT800_COLOR_RGB, 0, 0, 0);
+
     eve_click_draw(FT800_TEXT,
                    240,                 /* x */
                    100,                 /* y */
                    28,                  /* font */
                    FT800_OPT_CENTER,    /* options */
                    str);
-
     draw_time();
+    eve_click_draw(FT800_COLOR_RGB, 255, 255, 255);
+
     draw_logo();
 
     gui_draw();
