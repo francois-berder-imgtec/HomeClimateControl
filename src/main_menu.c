@@ -1,10 +1,36 @@
 #include <stddef.h>
 #include <stdio.h>
+#include <time.h>
 #include <letmecreate/letmecreate.h>
 #include "gui.h"
 #include "main_menu.h"
 #include "state.h"
 
+
+static char* month_str[] = {
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+};
+
+static char *weekday_str[] = {
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
+};
 
 static int bid = -1;
 
@@ -12,6 +38,23 @@ static void main_menu_gui_handler(int id)
 {
     if (id == bid)
         state_machine_exit();
+}
+
+static void draw_time(void)
+{
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    char str[255];
+
+    if (snprintf(str, sizeof(str)-1, "%s %d %s %d:%02d", weekday_str[tm.tm_wday], tm.tm_mday, month_str[tm.tm_mon], tm.tm_hour, tm.tm_min) < 0)
+        return;
+
+    eve_click_draw(FT800_TEXT,
+                   471,
+                   0,
+                   20,
+                   FT800_OPT_RIGHTX,
+                   str);
 }
 
 void main_menu_init(void)
@@ -37,6 +80,8 @@ void main_menu_refresh_screen(void)
                    28,                  /* font */
                    FT800_OPT_CENTER,    /* options */
                    str);
+
+    draw_time();
 
     gui_draw();
     eve_click_display();
