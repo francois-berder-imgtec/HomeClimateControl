@@ -108,6 +108,10 @@ int gui_remove_button(int id)
 void gui_draw(void)
 {
     struct button *cur = buttons;
+
+    /* Change foreground color to Imagination Technologies purple color */
+    eve_click_draw(FT800_FGCOLOR, 0x6f4972);
+
     while (cur) {
         eve_click_draw(FT800_BUTTON,
                        cur->x,
@@ -119,6 +123,9 @@ void gui_draw(void)
                        cur->str);
         cur = cur->next;
     }
+
+    /* Change back to default foreground color */
+    eve_click_draw(FT800_FGCOLOR, 0x003870);
 }
 
 void gui_release(void)
