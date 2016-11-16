@@ -9,7 +9,7 @@
 static bool running = true;
 static struct sigaction action;
 
-static unsigned int current_state;
+static unsigned int current_state, new_state;
 static struct state states[STATE_CNT] = {
     [MAIN_MENU] = {
         .init = main_menu_init,
@@ -45,6 +45,7 @@ void state_machine_init(unsigned int state)
     sigemptyset(&action.sa_mask);
     sigaction(SIGINT, &action, NULL);
 
+    new_state = state;
     current_state = state;
     running = true;
 
@@ -52,7 +53,12 @@ void state_machine_init(unsigned int state)
         states[current_state].init();
 }
 
-void change_state(unsigned int new_state)
+void state_machine_set_state(unsigned int state)
+{
+    new_state = state;
+}
+
+static void change_state(void)
 {
     if (new_state == current_state)
         return;
@@ -77,6 +83,9 @@ void state_machine_run(void)
         if (states[current_state].refresh_screen != NULL)
             states[current_state].refresh_screen();
         sleep_ms(16);
+
+        if (new_state != current_state)
+            change_state();
     }
 }
 
