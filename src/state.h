@@ -13,6 +13,7 @@ typedef struct state state;
 
 enum STATE {
     MAIN_MENU,
+    SCREENSAVER,
     STATE_CNT
 };
 

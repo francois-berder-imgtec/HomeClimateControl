@@ -4,6 +4,7 @@
 #include <time.h>
 #include "state.h"
 #include "main_menu.h"
+#include "screensaver.h"
 
 
 static bool running = true;
@@ -14,7 +15,12 @@ static struct state states[STATE_CNT] = {
     [MAIN_MENU] = {
         .init = main_menu_init,
         .refresh_screen = main_menu_refresh_screen,
-        .release = main_menu_release,
+        .release = main_menu_release
+    },
+    [SCREENSAVER] = {
+        .init = screensaver_init,
+        .refresh_screen = NULL,
+        .release = screensaver_release
     }
 };
 

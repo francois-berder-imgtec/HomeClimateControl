@@ -38,7 +38,7 @@ static int bid = -1;
 static void main_menu_gui_handler(int id)
 {
     if (id == bid)
-        state_machine_exit();
+        state_machine_set_state(SCREENSAVER);
 }
 
 static void draw_time(void)
