@@ -135,8 +135,6 @@ int main(void)
     }
     xmlCleanupParser();
 
-    gui_init();
-
     state_machine_init(MAIN_MENU);
 
     printf("Home Climate Control demo started");
@@ -144,7 +142,6 @@ int main(void)
     state_machine_run();
 
     state_machine_release();
-    gui_release();
     release_peripherals();
 
     return 0;

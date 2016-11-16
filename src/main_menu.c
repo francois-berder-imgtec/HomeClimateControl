@@ -71,8 +71,8 @@ static void draw_logo(void)
 void main_menu_init(void)
 {
     load_creator_logo();
-
-    bid = gui_add_button(220,235,50,30,"Exit");
+    gui_init();
+    bid = gui_add_button(220,235,50,30,"Sleep");
     gui_set_user_callback(main_menu_gui_handler);
 }
 
@@ -109,5 +109,5 @@ void main_menu_release(void)
     if (bid >= 0)
         gui_remove_button(bid);
 
-    gui_set_user_callback(NULL);
+    gui_release();
 }
