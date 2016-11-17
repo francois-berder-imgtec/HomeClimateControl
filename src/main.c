@@ -7,6 +7,7 @@
 #include <libxml/tree.h>
 #include "gui.h"
 #include "state.h"
+#include "temperature_logger.h"
 
 #define TOUCH_SCREEN_CALIBRATION_FILE_PATH              "data/calibration.xml"
 
@@ -135,6 +136,7 @@ int main(void)
     }
     xmlCleanupParser();
 
+    temperature_logger_start();
     state_machine_init(MAIN_MENU);
 
     printf("Home Climate Control demo started\n");
@@ -142,6 +144,7 @@ int main(void)
     state_machine_run();
 
     state_machine_release();
+    temperature_logger_stop();
     release_peripherals();
 
     return 0;

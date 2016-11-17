@@ -7,6 +7,7 @@
 #include "gui.h"
 #include "main_menu.h"
 #include "state.h"
+#include "temperature_logger.h"
 
 static char* month_str[] = {
     "Jan",
@@ -81,7 +82,7 @@ void main_menu_refresh_screen(void)
     float temperature = 0.f;
     char str[255];
 
-    if (thermo3_click_get_temperature(&temperature) < 0)
+    if (temperature_logger_get_current_temperature(&temperature) < 0)
         snprintf(str, sizeof(str)-1, "Could not get temperature from sensor");
     else
         snprintf(str, sizeof(str)-1, "Current temperature: %5.2f degrees celsius", temperature);
