@@ -137,7 +137,7 @@ int main(void)
 
     state_machine_init(MAIN_MENU);
 
-    printf("Home Climate Control demo started");
+    printf("Home Climate Control demo started\n");
 
     state_machine_run();
 
