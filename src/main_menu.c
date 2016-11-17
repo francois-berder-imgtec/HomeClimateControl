@@ -65,7 +65,7 @@ static void draw_logo(void)
     eve_click_draw(FT800_BITMAP_LAYOUT, FT800_RGB565, CREATOR_IMAGE_WIDTH*2, CREATOR_IMAGE_HEIGHT);
     eve_click_draw(FT800_BITMAP_SIZE, FT800_NEAREST, FT800_BORDER, FT800_BORDER, CREATOR_IMAGE_WIDTH, CREATOR_IMAGE_HEIGHT);
     eve_click_draw(FT800_BEGIN, FT800_BITMAPS);
-    eve_click_draw(FT800_VERTEX2II, 0, 0, 0, 0);
+    eve_click_draw(FT800_VERTEX2II, 3, 3, 0, 0);
     eve_click_draw(FT800_END);
 }
 
