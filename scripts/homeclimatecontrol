@@ -1,0 +1,19 @@
+#!/bin/sh /etc/rc.common
+
+START=99
+STOP=10
+
+SERVICE_DAEMONIZE=1
+SERVICE_WRITE_PID=1
+
+APP=homeclimatecontrol
+
+start(){
+        sleep 5
+        service_start /usr/bin/HomeClimateControl/$APP
+}
+
+stop() {
+        service_stop /usr/bin/HomeClimateControl/$APP
+}
+
