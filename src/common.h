@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
+#define HOME_CLIMATE_CONTROLLER_ROOT_DIR    "/usr/bin/HomeClimateControl/"
+
 #define CREATOR_IMAGE_WIDTH             (100)
 #define CREATOR_IMAGE_HEIGHT            (34)
 

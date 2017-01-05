@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
+#include "common.h"
 #include "temperature_logger.h"
 
 #define TEMPERATURE_RECORDS_FILE_PATH       "data/temperature.xml"
@@ -39,7 +40,7 @@ static void* run(void *arg)
             float temperature = 0.f;
             char temperature_str[255], timestamp_str[255];
             xmlNodePtr root_node = NULL, record_node = NULL;
-            xmlDocPtr doc = xmlReadFile(TEMPERATURE_RECORDS_FILE_PATH, NULL, 0);
+            xmlDocPtr doc = xmlReadFile(HOME_CLIMATE_CONTROLLER_ROOT_DIR TEMPERATURE_RECORDS_FILE_PATH, NULL, 0);
             if (doc == NULL) {
                 doc = xmlNewDoc(BAD_CAST "1.0");
                 root_node = xmlNewNode(NULL, BAD_CAST "records");
@@ -58,7 +59,7 @@ static void* run(void *arg)
                 sprintf(temperature_str, "%f", temperature);
                 xmlNewChild(record_node, NULL, BAD_CAST "timestamp", BAD_CAST timestamp_str);
                 xmlNewChild(record_node, NULL, BAD_CAST "temperature", BAD_CAST temperature_str);
-                xmlSaveFormatFileEnc(TEMPERATURE_RECORDS_FILE_PATH, doc, "UTF-8", 1);
+                xmlSaveFormatFileEnc(HOME_CLIMATE_CONTROLLER_ROOT_DIR TEMPERATURE_RECORDS_FILE_PATH, doc, "UTF-8", 1);
             }
             xmlFreeDoc(doc);
 

@@ -39,7 +39,7 @@ void load_creator_logo(void)
     char *buffer = NULL;
     uint32_t buffer_length = 0;
 
-    if (load_image_from_file("data/creator_logo.jpg", &buffer, &buffer_length) < 0) {
+    if (load_image_from_file(HOME_CLIMATE_CONTROLLER_ROOT_DIR "data/creator_logo.jpg", &buffer, &buffer_length) < 0) {
         fprintf(stderr, "Failed to load creator logo.\n");
         return;
     }

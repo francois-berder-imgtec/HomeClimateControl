@@ -5,6 +5,7 @@
 #include <letmecreate/letmecreate.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
+#include "common.h"
 #include "gui.h"
 #include "state.h"
 #include "temperature_logger.h"
@@ -43,7 +44,7 @@ static int load_touch_screen_calibration_matrix(void)
     uint8_t matrix_elements[6] = { 0, 0, 0, 0, 0, 0 };
     uint32_t calibration_matrix[6];
     xmlNode *root_node = NULL, *cur_node = NULL;
-    xmlDocPtr doc = xmlReadFile(TOUCH_SCREEN_CALIBRATION_FILE_PATH, NULL, 0);
+    xmlDocPtr doc = xmlReadFile(HOME_CLIMATE_CONTROLLER_ROOT_DIR TOUCH_SCREEN_CALIBRATION_FILE_PATH, NULL, 0);
 
     if (doc == NULL)
         return -1;
@@ -115,8 +116,8 @@ static void perform_touch_screen_calibration(void)
     xmlNewChild(root_node, NULL, BAD_CAST "e", BAD_CAST str);
     snprintf(str, 16, "%u", f);
     xmlNewChild(root_node, NULL, BAD_CAST "f", BAD_CAST str);
-    xmlSaveFormatFileEnc(TOUCH_SCREEN_CALIBRATION_FILE_PATH, doc, "UTF-8", 1);
-    printf("Saved calibration data to %s\n", TOUCH_SCREEN_CALIBRATION_FILE_PATH);
+    xmlSaveFormatFileEnc(HOME_CLIMATE_CONTROLLER_ROOT_DIR TOUCH_SCREEN_CALIBRATION_FILE_PATH, doc, "UTF-8", 1);
+    printf("Saved calibration data to %s\n", HOME_CLIMATE_CONTROLLER_ROOT_DIR TOUCH_SCREEN_CALIBRATION_FILE_PATH);
     xmlFreeDoc(doc);
 }
 
